@@ -5,41 +5,44 @@ using UnityEngine;
 /// </summary>
 public class PlayerController2D : MonoBehaviour
 {
-    private int moveDir = 0; // 玩家移动方向(-1为向左，1为向右）
-    private float moveSpeed = PlayerBlackboard.moveSpeed; // 玩家移动速度
+    // 状态机
+    private FSM<E_PlayerStateType, PlayerBlackboard> playerFSM2D;
+    // 玩家黑板
+    private PlayerBlackboard playerBlackboard;
+    public GameObject player2D;
 
     private void Start()
     {
-        
+        playerBlackboard = new PlayerBlackboard();
+        playerFSM2D = new FSM<E_PlayerStateType, PlayerBlackboard>(playerBlackboard);
+
+        // 初始化playerBlackboard
+        playerBlackboard.player2D = player2D;
+
+        AddState();
+        AddTransition();
+    }
+
+    private void AddState()
+    {
+        playerFSM2D.AddState(E_PlayerStateType.Idle, new IdleState2D());
+        playerFSM2D.AddState(E_PlayerStateType.Move, new MoveState2D(playerBlackboard));
+    }
+
+    private void AddTransition()
+    {
+        playerFSM2D.AddTransition(E_PlayerStateType.Idle, E_PlayerStateType.Move, () =>
+        {
+            return Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
+        });
+        playerFSM2D.AddTransition(E_PlayerStateType.Move, E_PlayerStateType.Idle, () =>
+        {
+            return playerBlackboard.moveSpeed <= 0;
+        });
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveDir = SetMoveDir(1);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            moveDir = SetMoveDir(-1);
-        }
-        else
-        {
-            moveDir = SetMoveDir(0);
-        }
-        Move();
-    }
-
-    // 设置玩家移动方向
-    public int SetMoveDir(int dir)
-    {
-        return dir;
-    }
-
-    // 玩家移动方法
-    public void Move()
-    {
-        transform.position += new Vector3(moveDir, 0, 0) * moveSpeed * Time.deltaTime;
-        PlayerPositionManage.playerPosition.WritePosition(transform.position.x, transform.position.y);
+        playerFSM2D.OnUpdate();
     }
 }

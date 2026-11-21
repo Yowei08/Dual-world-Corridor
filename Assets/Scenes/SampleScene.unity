@@ -903,7 +903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25f26dd1c523834cbc4831cf7051270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController3D
-  camera3D: {fileID: 1672073364}
 --- !u!1 &1470734948
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,8 +947,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce0563905cfab041931d0dd36481099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCenter
-  player2D: {fileID: 0}
-  player3D: {fileID: 0}
+  player2D: {fileID: 1604125213}
+  player3D: {fileID: 1410575845}
 --- !u!1 &1604125213
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,6 +994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1559d8900ae2b044997c422033a4ef36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController2D
+  player2D: {fileID: 1604125213}
 --- !u!1 &1659506955
 GameObject:
   m_ObjectHideFlags: 0
