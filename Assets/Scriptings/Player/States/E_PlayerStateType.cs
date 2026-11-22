@@ -4,5 +4,6 @@ public enum E_PlayerStateType
 {
     Idle,
     Move,
-    Jump
+    Jump,
+    Fall
 }
