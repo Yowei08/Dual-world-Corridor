@@ -11,7 +11,9 @@ public class PlayerController2D : MonoBehaviour
     private PlayerBlackboard playerBlackboard;
     public GameObject player2D;
 
-    private void Start()
+    public InputCenter input;
+
+    private void Awake()
     {
         playerBlackboard = new PlayerBlackboard();
         playerFSM2D = new FSM<E_PlayerStateType, PlayerBlackboard>(playerBlackboard);
@@ -19,8 +21,19 @@ public class PlayerController2D : MonoBehaviour
         // 初始化playerBlackboard
         playerBlackboard.player2D = player2D;
 
+        if (playerBlackboard.input == null)
+        {
+            playerBlackboard.input = input;
+        }
+
         AddState();
         AddTransition();
+        playerFSM2D.SwitchState(E_PlayerStateType.Idle);
+    }
+
+    private void Start()
+    {
+
     }
 
     private void AddState()
@@ -33,7 +46,7 @@ public class PlayerController2D : MonoBehaviour
     {
         playerFSM2D.AddTransition(E_PlayerStateType.Idle, E_PlayerStateType.Move, () =>
         {
-            return Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
+            return input != null && (input.moveLeft || input.moveRight);
         });
         playerFSM2D.AddTransition(E_PlayerStateType.Move, E_PlayerStateType.Idle, () =>
         {
@@ -44,5 +57,6 @@ public class PlayerController2D : MonoBehaviour
     private void Update()
     {
         playerFSM2D.OnUpdate();
+        PlayerPositionManage.playerPosition.WritePosition(transform.position.x, transform.position.y);
     }
 }

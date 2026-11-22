@@ -14,12 +14,10 @@ public class MoveState2D : I_State
 
     private int moveDir = 0; // 移动方向
     private float maxSpeed; // 移动速度
-    private float acceleration; // 加速度
 
     public void OnEnter()
     {
         maxSpeed = blackboard.maxSpeed;
-        acceleration = blackboard.acceleration;
     }
 
     public void OnExit()
@@ -35,13 +33,13 @@ public class MoveState2D : I_State
 
     private void SetDir()
     {
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveDir = -1;
-        }
-        else if (Input.GetKey(KeyCode.D))
+        if (blackboard.input.moveRight)
         {
             moveDir = 1;
+        }
+        else if (blackboard.input.moveLeft)
+        {
+            moveDir = -1;
         }
         else
         {
@@ -53,9 +51,10 @@ public class MoveState2D : I_State
     {
         if (moveDir == 0)
         {
+            blackboard.moveSpeed = 0;
             return;
         }
-        blackboard.moveSpeed = Mathf.MoveTowards(blackboard.moveSpeed, maxSpeed, acceleration * Time.deltaTime);
-        blackboard.player2D.transform.position += new Vector3(moveDir, 0, 0) * blackboard.maxSpeed * Time.deltaTime;
+        blackboard.moveSpeed = maxSpeed;
+        blackboard.player2D.transform.position += new Vector3(moveDir, 0, 0) * blackboard.moveSpeed * Time.deltaTime;
     }
 }
