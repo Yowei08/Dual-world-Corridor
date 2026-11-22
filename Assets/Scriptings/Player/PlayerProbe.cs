@@ -206,12 +206,14 @@ public static class PlayerProbe2D
     public static bool GroundCheck(PlayerBlackboard blackboard)
     {
         float radius = blackboard.capsuleRadius;
-        // 球心抬到角色底部上方，胶囊底端就在脚下
-        Vector2 feet = GetBottom(blackboard) + Vector2.up * (radius + ProbeLift);
+        // 球心抬到角色底部上方，胶囊底端就在脚下（多抬高一点：万一已经扎进面里，从内部出发会打空）
+        float extra = 0.1f;
+        Vector2 feet = GetBottom(blackboard) + Vector2.up * (radius + ProbeLift + extra);
         Vector2 size = new Vector2(radius * 2f, radius * 2f);
+        float distance = blackboard.groundCheckGap + ProbeLift + extra;
 
         // 取全部命中再筛：最近的命中可能是自己身上的碰撞体，必须跳过再找真正的脚下地面
-        RaycastHit2D[] hits = Physics2D.CapsuleCastAll(feet, size, CapsuleDirection2D.Vertical, 0f, Vector2.down, blackboard.groundCheckGap + ProbeLift, blackboard.groundLayer);
+        RaycastHit2D[] hits = Physics2D.CapsuleCastAll(feet, size, CapsuleDirection2D.Vertical, 0f, Vector2.down, distance, blackboard.groundLayer);
         float best = float.MaxValue;
         bool grounded = false;
         Vector2 normal = Vector2.up;
@@ -242,14 +244,7 @@ public static class PlayerProbe2D
             return true;
         }
 
-        // 投射打空但脚下那块已经和面重叠了（上斜坡时偶尔会扎进去）：抬一点出来，这一帧先算踩着地
-        // 不这么处理的话，从内部出发的投射永远打空，重力会一直往下压，人就卡在坡里了
-        if (IsTouching(blackboard))
-        {
-            Translate(blackboard, Vector2.up * ProbeLift);
-            return true;
-        }
-
+        // 投射都打空了才说明是真的脚下一空；扎在面里时上面的抬高已经把命中救回来了
         return false;
     }
 
@@ -298,12 +293,8 @@ public static class PlayerProbe2D
                 continue;
             }
 
-            // 起始就贴着的接触不算墙
-            if (hits[i].distance <= 0.001f)
-            {
-                continue;
-            }
-
+            // 注意：这里不能跳过"距离0"的命中。斜坡是个整块碰撞体，人一直贴着坡面走，
+            // 跳掉贴着的命中等于把整块斜坡从墙检测里摘掉，人就能从坡的另一头直接穿过去
             if (IsWall(blackboard, hits[i].normal, direction))
             {
                 return true;
@@ -470,9 +461,18 @@ public static class PlayerProbe2D
     }
 
     // 挡路的墙：法线要迎着移动方向，而且够竖直
-    // 法线朝下的面（斜坡低端那个端盖）不算墙，不然走上斜坡时会撞在坡脚上过不去
+    // 另外两种特殊情况：
+    //  - 法线朝下的面（天花板/斜坡的底面）：胶囊都能撞上，说明这块地方人钻不过去，算墙（不然能从斜坡下面穿过去）
+    //  - 其它斜朝下的面（斜坡低端那个端盖）不算墙，不然上坡会撞在坡脚上
     private static bool IsWall(PlayerBlackboard blackboard, Vector2 normal, Vector2 direction)
     {
+        float cos = Mathf.Cos(blackboard.slopeLimit * Mathf.Deg2Rad);
+
+        if (normal.y < -cos)
+        {
+            return true;
+        }
+
         if (normal.y < -0.05f)
         {
             return false;
@@ -483,7 +483,7 @@ public static class PlayerProbe2D
             return false;
         }
 
-        return Mathf.Abs(normal.y) < Mathf.Cos(blackboard.slopeLimit * Mathf.Deg2Rad);
+        return Mathf.Abs(normal.y) < cos;
     }
 
     // 自己身上的碰撞体（模型、玩家自己的Collider）不参与检测
