@@ -45,6 +45,6 @@ public class TransitionTable<TStateType>
         }
         // 没有找到转换规则
         nextState = default;
-        return true;
+        return false;
     }
 }

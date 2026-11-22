@@ -73,13 +73,11 @@ public class FSM<TStateType, TBlackboard>
         // 判断是否有状态
         if (!states.ContainsKey(newStateType))
         {
-            Debug.Log("没有找到对应状态");
             return;
         }
         // 判断是否与当前状态相同
         else if (currentState == states[newStateType])
         {
-            Debug.Log("已经在对应状态中");
             return;
         }
 
@@ -98,6 +96,7 @@ public class FSM<TStateType, TBlackboard>
         if (table.TryGetNextState(currentStateType, out TStateType nextState))
         {
             SwitchState(nextState);
+            Debug.Log(nextState);
         }
     }
 
