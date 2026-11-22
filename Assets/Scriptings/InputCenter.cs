@@ -17,6 +17,9 @@ public class InputCenter : MonoBehaviour
     public bool moveRight = false;
     public bool moveLeft = false;
 
+    // 跳跃相关
+    public bool jump = false;
+
     // 世界切换事件
     public event SwitchWorld switchWorld;
 
@@ -28,7 +31,13 @@ public class InputCenter : MonoBehaviour
     private void Update()
     {
         haveMoveInput = CheckMoveInput();
+        jump = CheckJumpInput();
         SwitchWorld();
+    }
+
+    private bool CheckJumpInput()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
     }
 
     private bool CheckMoveInput()
