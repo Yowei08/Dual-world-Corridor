@@ -1,0 +1,31 @@
+﻿[PASS] 控制器实例存在
+[PASS] 起始处于 3D
+[PASS] 3D 相机在渲染
+[PASS] 2D 相机未渲染
+[PASS] 遮罩初始透明  -> blend=0.00
+[PASS] 3D 站地板：可切换  -> snapX=0.00
+[PASS] 3D 站地板：吸附在自己脚下  -> snapX=0.00
+[PASS] 3D 视角成图  -> 亮度 std=51.4 mean=105.3  -> shot_3d.png
+[PASS] 3D 深渊上方：禁切  -> snapX=0.00
+[PASS] 深渊上方切 2D 被拒绝
+[PASS] 请求后立即进入 busy
+[PASS] 转场时长接近 0.65s  -> 实际 0.65s
+[PASS] 已切到 2D
+[PASS] 2D 相机激活
+[PASS] 3D 相机隐藏
+[PASS] blend 归位到 1  -> blend=1.00
+[PASS] 2D 视角成图  -> 亮度 std=11.3 mean=40.8  -> shot_2d.png
+[PASS] 2D 相机为正交
+[PASS] 2D 相机 X = 35  -> x=35
+[PASS] 2D 相机朝向 -X  -> (0.00, 270.00, 0.00)
+[PASS] 2D 相机跟随 Z  -> camZ=6.5 playerZ=6.5
+[PASS] 2D 红毯(3D 是深渊)：禁切回  -> snapX=0.00
+[PASS] 红毯上请求切 3D 被拒绝
+[PASS] 2D 平台(3D 有地面)：可切回  -> snapX=0.00
+[PASS] 已切回 3D
+[PASS] 3D 相机激活
+[PASS] 2D 相机隐藏
+[PASS] X 已吸附到安全点  -> x=0.00 expect=0.00
+[PASS] 3D 相机距离正确
+[PASS] 连续切换后状态自洽
+RESULT: PASS  passed=30 failed=0

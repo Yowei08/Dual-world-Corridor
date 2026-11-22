@@ -1,0 +1,32 @@
+﻿[PASS] 关键物件都在
+[PASS] 入口地板可站
+[PASS] 入口处允许切维度
+[PASS] 6 m 深渊跳不过去（算出来的）  -> 最大跳跃 4.20 m（速度 5.5 × 滞空 0.76 s）
+[PASS] 深渊在 3D 里没有地板
+[PASS] 入口处切到 2D
+[PASS] 坑上方光圈暗红（禁切回 3D）  -> canSwitch=False
+[PASS] 走到中间平台后恢复可切
+[PASS] 在中间平台切回 3D
+[PASS] 3D：枯木桥未出现
+[PASS] 3D：2D 玻璃碰撞体关闭
+[PASS] 浇水前：2D 玻璃墙挡住去路
+[PASS] 2D：花洒可推
+[PASS] 推花洒到 Z=17.5 完成浇水  -> arrived=True
+[PASS] 浇水后玻璃碎（路通了）
+[PASS] 3D：枯木桥长成  -> grow=1.00
+[PASS] 3D：可以踩上枯木桥
+[PASS] 拉杆在 3D 可交互
+[PASS] 拉杆启动主动轮
+[PASS] 3D：隔 19 m 咬不上  -> gapError=16.0
+[PASS] 3D：门仍然关着
+[PASS] 2D：两轮投影相切咬合  -> gapError=0.000 投影距=3.30
+[PASS] 2D：转满一圈后大门打开  -> deg=468 completed=True door=True
+[PASS] 门开时拦路碰撞体关闭
+[PASS] 站在左断桥上
+[PASS] 左断桥上允许切 2D
+[PASS] 2D 走到右断桥的 Z（仍锁在 X=-5）  -> x=-5.00
+[PASS] 右断桥上方允许切回 3D
+[PASS] 切回 3D 时 X 轴吸附到右断桥  -> x=5.00
+[PASS] 落在右断桥实体上
+[INFO] 电梯底座 存在
+RESULT: PASS  passed=30 failed=0

@@ -1,0 +1,30 @@
+﻿[PASS] 七个机关都在场景里
+[PASS] 3D：弹簧板不触发  -> fireCount=0
+[PASS] 3D：浇水被拒绝
+[PASS] 玩家身上挂着刀
+[PASS] 3D：挥刀够到了配重  -> hits=1
+[PASS] 3D：砍链被拒绝
+[PASS] 3D：生成回声被拒绝  -> before=0 after=0
+[PASS] 3D：光束点亮接收器
+[PASS] 齿轮错位时不咬合  -> dist=2.00
+[PASS] 齿轮推到位后咬合  -> dist=0.00
+[PASS] 主动轮在转  -> delta=77.2
+[PASS] 停转后解除咬合
+[PASS] 单板按下：门不开  -> A=True open=False
+[PASS] 双板按下：门打开  -> B=True open=True
+[PASS] 门打开时移除拦路碰撞
+[PASS] 松开一块板：门关闭
+[PASS] 全部松开：门保持关闭
+[PASS] 已切到 2D
+[PASS] 2D：弹簧板把玩家弹起  -> fire=2 launch=2
+[PASS] 2D：浇水成功
+[PASS] 2D：树苗消失
+[PASS] 2D：挥刀砍断铁链  -> hits=1
+[PASS] 配重落地压住踏板  -> y=0.40
+[PASS] 2D：生成回声成功  -> before=0 after=1
+[PASS] 2D：光束熄灭
+[PASS] 已切回 3D
+[PASS] 3D：长出的桥出现
+[PASS] 3D：桥的碰撞体启用
+[PASS] 3D：光束重新点亮
+RESULT: PASS  passed=29 failed=0

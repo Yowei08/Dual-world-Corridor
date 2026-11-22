@@ -1,0 +1,37 @@
+﻿[PASS] 机关全部就位
+[PASS] 3D：弹簧板不触发  -> fireCount=0
+[PASS] 3D：砍链被拒绝
+[PASS] 3D：生成残影被拒绝
+[PASS] 3D：光束点亮接收器
+[PASS] 齿轮初始未启动
+[PASS] 拉杆在 3D 可交互
+[PASS] 拉杆启动主动轮
+[PASS] 3D：隔 19m 不咬合（间隙误差很大）  -> gapError=16.0 投影距=3.30
+[PASS] 3D：从动轮不转  -> deg=0.0
+[PASS] 3D：玻璃墙碰撞体关闭（2D 专属）
+[PASS] 3D：枯木桥尚未激活
+[PASS] 3D：花洒不能推（2D 专属）
+[PASS] 单板按下：门不开  -> A=True open=False
+[PASS] 双板按下：门打开  -> B=True open=True
+[PASS] 门打开时移除拦路碰撞
+[PASS] 松开一块板：门关闭
+[PASS] 全部松开：门保持关闭
+[PASS] 已切到 2D
+[PASS] 2D：两轮投影相切咬合  -> 间隙误差=0.000 投影距=3.30
+[PASS] 2D：从动轮被带着转  -> deg=180
+[PASS] 2D：转够圈数后门打开  -> completed=True gate=True
+[PASS] 2D：玻璃墙挡路（碰撞体启用）
+[PASS] 2D：花洒可推
+[PASS] 花洒推到树苗旁并浇水  -> arrived=True
+[PASS] 2D：玻璃墙碰撞体已关（挡住的路通了）
+[PASS] 2D：玻璃网格已隐藏
+[PASS] 2D：挥刀砍断铁链  -> hits=1
+[PASS] 配重落地压住踏板  -> y=0.40
+[PASS] 2D：生成残影成功
+[PASS] 2D：光束熄灭
+[PASS] 已切回 3D
+[PASS] 3D：枯木桥出现
+[PASS] 3D：枯木桥长成并可以踩  -> grow=1.00
+[PASS] 3D：齿轮又咬不上了（不是开关，是几何）  -> gapError=16.0
+[PASS] 3D：光束重新点亮
+RESULT: PASS  passed=36 failed=0
