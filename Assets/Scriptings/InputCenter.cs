@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// 世界转换委托
-/// </summary>
-public delegate void SwitchWorld();
 
 /// <summary>
 /// 管理所有输入
@@ -19,9 +15,6 @@ public class InputCenter : MonoBehaviour
 
     // 跳跃相关
     public bool jump = false;
-
-    // 世界切换事件
-    public event SwitchWorld switchWorld;
 
     private void Start()
     {
@@ -78,12 +71,7 @@ public class InputCenter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            switchWorld?.Invoke();
+            WorldSwitchManage.WorldSwitch.UseEvent();
         }
-    }
-
-    public void AddEvent(SwitchWorld switchWorld)
-    {
-        this.switchWorld += switchWorld;
     }
 }
