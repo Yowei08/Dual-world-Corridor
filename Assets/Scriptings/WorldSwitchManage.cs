@@ -16,7 +16,7 @@ public class WorldSwitchManage
     }
 
     // 初始默认世界,2d-false, 3d-true
-    public bool nowWorld = true;
+    public bool nowWorld = false;
     // 世界切换事件
     public event OnSwitch switchWorld;
     // 检查事件

@@ -27,16 +27,16 @@ public class PlayerCenter : MonoBehaviour
     {
         groundMask = LayerMask.GetMask("Ground");
 
-        // 初始化坐标
-        if (player2D != null && player3D != null)
-        {
-            PlayerPositionManage.playerPosition.WritePosition(player3D.transform.position.z);
-            Vector2 pos = PlayerPositionManage.playerPosition.GetPosition2D();
-            player2D.transform.position = new Vector3(pos.x, pos.y, player2D.transform.position.z);
-            player3D.transform.position = PlayerPositionManage.playerPosition.GetPosition3D();
-            // 初始化地面记录和3D玩家z坐标记录
-            lastGround = WriteLastGround();
-        }
+        //// 初始化坐标
+        //if (player2D != null && player3D != null)
+        //{
+        //    PlayerPositionManage.playerPosition.WritePosition(player3D.transform.position.z);
+        //    Vector2 pos = PlayerPositionManage.playerPosition.GetPosition2D();
+        //    player2D.transform.position = new Vector3(pos.x, pos.y, player2D.transform.position.z);
+        //    player3D.transform.position = PlayerPositionManage.playerPosition.GetPosition3D();
+        //    // 初始化地面记录和3D玩家z坐标记录
+        //    lastGround = WriteLastGround();
+        //}
 
         // 加入到OnCheck事件
         WorldSwitchManage.WorldSwitch.AddCheck(GroundCheck);
