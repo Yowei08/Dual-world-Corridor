@@ -13,10 +13,21 @@ public class PlayerSavePointManage : MonoBehaviour
     private void Start()
     {
         Manage = this;
-        if (start != null)
+
+        if (start == null)
         {
-            lastSavePoint = start;
+            PlayerController3D controller = FindFirstObjectByType<PlayerController3D>(FindObjectsInactive.Include);
+            GameObject defaultStart = new GameObject("DefaultStartSavePoint");
+            if (controller != null)
+            {
+                GameObject player = controller.player3D != null ? controller.player3D : controller.gameObject;
+                defaultStart.transform.position = player.transform.position;
+            }
+
+            start = defaultStart.transform;
         }
+
+        lastSavePoint = start;
     }
 
     // 保存

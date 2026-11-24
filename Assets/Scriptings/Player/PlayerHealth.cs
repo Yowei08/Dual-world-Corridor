@@ -4,7 +4,7 @@ public class PlayerHealth : MonoBehaviour
 {
     private static int health = 3;
     private float limit = -5f ;
-    public bool p;
+    public bool is3D;
     public GameObject player;
 
     private void Start()
@@ -42,6 +42,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
+            PlayerDie();
             SetPosition(true);
             health = 3;
         }
@@ -51,14 +52,19 @@ public class PlayerHealth : MonoBehaviour
     {
         Vector3 pos = PlayerSavePointManage.Manage.Get(isStart).position;
         // 表示2D
-        if (p == false)
+        if (is3D == false)
         {
             player.transform.position = new Vector3(pos.x, pos.y, player.transform.position.z);
         }
-        // 表示2D
-        else if (p == true)
+        // 表示3D
+        else if (is3D == true)
         {
             player.transform.position = pos;
         }
+    }
+
+    private void PlayerDie()
+    {
+        EventManage.Instance.UseDieEvent();
     }
 }
