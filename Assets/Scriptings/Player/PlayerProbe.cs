@@ -92,16 +92,10 @@ public static class PlayerProbe3D
         Vector3 pointBottom = center - Vector3.up * half;
 
         // 取全部命中再筛：只取最近的那个，会被脚下的地面/坡面抢先命中，把真正的墙挡掉
-        RaycastHit[] hits = Physics.CapsuleCastAll(pointTop, pointBottom, radius, direction, distance + blackboard.wallCheckSkin, blackboard.groundLayer, QueryTriggerInteraction.Ignore);
+        RaycastHit[] hits = Physics.CapsuleCastAll(pointTop, pointBottom, radius, direction, distance + blackboard.wallCheckSkin, blackboard.wallLayer, QueryTriggerInteraction.Ignore);
         for (int i = 0; i < hits.Length; i++)
         {
             if (IsSelf(blackboard, hits[i].collider))
-            {
-                continue;
-            }
-
-            // 起始就贴着的接触不算墙：胶囊底贴着地面时，物理引擎会给出距离0、法线乱指的退化命中
-            if (hits[i].distance <= 0.001f)
             {
                 continue;
             }
@@ -285,7 +279,7 @@ public static class PlayerProbe2D
         Vector2 size = new Vector2(radius * 2f, height);
 
         // 取全部命中再筛：只取最近的那个，会被脚下的地面/坡面抢先命中，把真正的墙挡掉
-        RaycastHit2D[] hits = Physics2D.CapsuleCastAll(GetCenter(blackboard), size, CapsuleDirection2D.Vertical, 0f, direction, distance + blackboard.wallCheckSkin, blackboard.groundLayer);
+        RaycastHit2D[] hits = Physics2D.CapsuleCastAll(GetCenter(blackboard), size, CapsuleDirection2D.Vertical, 0f, direction, distance + blackboard.wallCheckSkin, blackboard.wallLayer);
         for (int i = 0; i < hits.Length; i++)
         {
             if (IsSelf(blackboard, hits[i].collider))

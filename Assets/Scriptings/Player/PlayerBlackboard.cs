@@ -34,7 +34,9 @@ public class PlayerBlackboard : Blackboard
     public float groundCheckGap = 0.08f; // 脚底胶囊向下检测的距离（要比胶囊控制器停在地面时留的间隙大，否则永远判不到地面）
     public float wallCheckSkin = 0.02f; // 墙体检测时胶囊的膨胀量
     public float slopeLimit = 46f; // 可走坡度的最大角度，超过就算墙
-    public LayerMask groundLayer = Physics.AllLayers; // 地面与墙体的检测层
+    // 地面检测层：只认 Ground 层（可站立平台）。机关/装饰不在这一层，玩家就不会踩上去
+    public LayerMask groundLayer = GroundMask();
+    public LayerMask wallLayer = WallMask(); // 撞墙检测层：只有真正的墙在Wall层
 
     // 运行时状态：由探针和状态机共同维护
     public float deltaTime = 0.02f; // 本帧步长，状态统一用它，方便按固定步长回放
@@ -48,6 +50,24 @@ public class PlayerBlackboard : Blackboard
     public bool facingRight = true; // 2D玩家当前朝向，true=朝右（翻转用）
     public int moveDirX = 0; // 3D左右输入方向 -1/0/1
     public int moveDirZ = 0; // 3D前后输入方向 -1/0/1
+
+    /// <summary>
+    /// Ground层的遮罩：按名字取，取不到退回全层
+    /// </summary>
+    private static LayerMask GroundMask()
+    {
+        int mask = LayerMask.GetMask("Ground");
+        return mask != 0 ? mask : Physics.AllLayers;
+    }
+
+    /// <summary>
+    /// Wall层的遮罩：按名字取，取不到就退回第8层
+    /// </summary>
+    private static LayerMask WallMask()
+    {
+        int mask = LayerMask.GetMask("Wall");
+        return mask != 0 ? mask : 1 << 8;
+    }
 
     /// <summary>
     /// 起跳速度：由跳跃高度和重力反推（v = √(2gh)）
