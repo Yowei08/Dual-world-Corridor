@@ -12,7 +12,7 @@ public class PlayerController3D : MonoBehaviour
     private PlayerBlackboard playerBlackboard;
     public GameObject player3D;
 
-    public InputCenter input;
+    private InputCenter input { get { return InputCenter.Instance; } }   // 每次都取单例，不在字段初始化时缓存（那时 Instance 还是 null）
 
     // 3D摄像機，移动方向以它的前/右为准
     public Camera viewCamera;

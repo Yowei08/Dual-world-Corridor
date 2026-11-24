@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerCenter : MonoBehaviour
 {
+    public static PlayerCenter Instance { get; private set; }
+
     public GameObject player2D;
     public GameObject player3D;
 
@@ -22,16 +24,19 @@ public class PlayerCenter : MonoBehaviour
     // false = 2D true = 3D
     private bool nowWorld;
 
+    private void Awake()
+    {
+        Instance = this;
+
+        EventManage.Instance.AddCheckEvent(GroundCheck);
+        EventManage.Instance.AddSwitchEvent(SwitchWorld);
+
+        groundMask = LayerMask.GetMask("Ground");
+    }
 
     private void Start()
     {
-        groundMask = LayerMask.GetMask("Ground");
-
-        // 加入到OnCheck事件
-        WorldSwitchManage.WorldSwitch.AddCheck(GroundCheck);
-        // 加入到OnSwitch事件
-        WorldSwitchManage.WorldSwitch.AddEvent(SwitchWorld);
-        nowWorld = WorldSwitchManage.WorldSwitch.nowWorld;
+        nowWorld = WorldSwitchManage.Instance.nowWorld;
 
         UpdateWorld();
     }
@@ -120,7 +125,7 @@ public class PlayerCenter : MonoBehaviour
     // 世界切换逻辑
     private void SwitchWorld()
     {
-        nowWorld = WorldSwitchManage.WorldSwitch.nowWorld;
+        nowWorld = WorldSwitchManage.Instance.nowWorld;
         // 切换到2D
         if (nowWorld == false)
         {

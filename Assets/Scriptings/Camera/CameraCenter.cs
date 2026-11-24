@@ -2,16 +2,23 @@ using UnityEngine;
 
 public class CameraCenter : MonoBehaviour
 {
+    public static CameraCenter Instance { get; private set; }
+
     public Camera camera2D;
     public Camera camera3D;
 
     private bool nowWorld;
 
+    private void Awake()
+    {
+        Instance = this;
+
+        EventManage.Instance.AddSwitchEvent(SwitchWorld);
+    }
+
     private void Start()
     {
-        // 加入到switchWorld事件
-        WorldSwitchManage.WorldSwitch.AddEvent(SwitchWorld);
-        nowWorld = WorldSwitchManage.WorldSwitch.nowWorld;
+        nowWorld = WorldSwitchManage.Instance.nowWorld;
 
         UpdateWorld();
     }
@@ -35,7 +42,7 @@ public class CameraCenter : MonoBehaviour
 
     private void SwitchWorld()
     {
-        nowWorld = WorldSwitchManage.WorldSwitch.nowWorld;
+        nowWorld = WorldSwitchManage.Instance.nowWorld;
         UpdateWorld();
     }
 }
