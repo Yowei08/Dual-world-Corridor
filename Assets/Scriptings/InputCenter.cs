@@ -6,6 +6,34 @@ using UnityEngine;
 /// </summary>
 public class InputCenter : MonoBehaviour
 {
+    private static InputCenter instance;
+
+    // 单例：随时访问都有值（没赋值就找，找不到就建），避免字段初始化器拿到 null
+    public static InputCenter Instance
+    {
+        get
+        {
+            if (instance != null)
+            {
+                return instance;
+            }
+
+            instance = FindFirstObjectByType<InputCenter>(FindObjectsInactive.Include);
+
+            if (instance == null)
+            {
+                GameObject go = new GameObject("InputCenter(Auto)");
+                instance = go.AddComponent<InputCenter>();
+            }
+
+            return instance;
+        }
+        private set
+        {
+            instance = value;
+        }
+    }
+
     // 移动相关
     public bool haveMoveInput = false;
     public bool moveForward = false;
@@ -16,9 +44,24 @@ public class InputCenter : MonoBehaviour
     // 跳跃相关
     public bool jump = false;
 
-    private void Start()
+    private void Awake()
     {
-        
+        // 全局只留一个：重复的只销毁组件，不销毁挂着的物体
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     private void Update()
@@ -71,7 +114,7 @@ public class InputCenter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            WorldSwitchManage.WorldSwitch.UseEvent();
+            WorldSwitchManage.Instance.UseEvent();
         }
     }
 }

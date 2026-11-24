@@ -12,7 +12,7 @@ public class PlayerController2D : MonoBehaviour
     private PlayerBlackboard playerBlackboard;
     public GameObject player2D;
 
-    public InputCenter input;
+    private InputCenter input { get { return InputCenter.Instance; } }   // 每次都取单例，不在字段初始化时缓存（那时 Instance 还是 null）
 
     private void Awake()
     {

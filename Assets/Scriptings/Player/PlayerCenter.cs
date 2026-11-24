@@ -8,10 +8,13 @@ using UnityEngine;
 /// </summary>
 public class PlayerCenter : MonoBehaviour
 {
+    public static PlayerCenter Instance { get; private set; }
+
     public GameObject player2D;
     public GameObject player3D;
 
     private LayerMask groundMask;
+    private LayerMask wallMask;
 
     // 针对2D转换到3D的z轴判断额外内容
     // 存储切换前地面
@@ -22,16 +25,29 @@ public class PlayerCenter : MonoBehaviour
     // false = 2D true = 3D
     private bool nowWorld;
 
+    private void Awake()
+    {
+        Instance = this;
+
+        EventManage.Instance.AddCheckEvent(GroundCheck);
+        EventManage.Instance.AddSwitchEvent(SwitchWorld);
+
+        groundMask = LayerMask.GetMask("Ground");
+        wallMask = LayerMask.GetMask("Wall");
+    }
 
     private void Start()
     {
-        groundMask = LayerMask.GetMask("Ground");
+        nowWorld = WorldSwitchManage.Instance.nowWorld;
 
-        // 加入到OnCheck事件
-        WorldSwitchManage.WorldSwitch.AddCheck(GroundCheck);
-        // 加入到OnSwitch事件
-        WorldSwitchManage.WorldSwitch.AddEvent(SwitchWorld);
-        nowWorld = WorldSwitchManage.WorldSwitch.nowWorld;
+        if (player2D == null)
+        {
+            player2D = FindFirstObjectByType<PlayerController2D>().gameObject;
+        }
+        if (player3D == null)
+        {
+            player3D = FindFirstObjectByType<PlayerController3D>().gameObject;
+        }
 
         UpdateWorld();
     }
@@ -78,10 +94,22 @@ public class PlayerCenter : MonoBehaviour
                     // 如果相同，玩家读取保存的z坐标
                     if (ground == lastGround)
                     {
+                        // 确定z轴
                         PlayerPositionManage.playerPosition.WritePosition(lastPosZ);
+                        // 墙面检测
+                        if (!WallCheck())
+                        {
+                            return false;
+                        }
                         return true;
                     }
+                    // 确定在轴
                     PlayerPositionManage.playerPosition.WritePosition(ground.transform.position.z);
+                    // 墙面检测
+                    if (!WallCheck())
+                    {
+                        return false;
+                    }
                     return true;
                 }
             }
@@ -95,6 +123,11 @@ public class PlayerCenter : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(new Vector3(pos.x, pos.y, player2D.transform.position.z), Vector3.down, Mathf.Infinity, groundMask);
             if (hit.collider != null)
             {
+                // 墙面检测
+                if (!WallCheck())
+                {
+                    return false;
+                }
                 // 记录当前3D地面和3D玩家z坐标
                 lastGround = WriteLastGround() != null ? WriteLastGround() : lastGround;
                 return true;
@@ -117,10 +150,41 @@ public class PlayerCenter : MonoBehaviour
         return ground;
     }
 
+    // 检测墙面
+    private bool WallCheck()
+    {
+        // 直接读取记录的坐标，在目标位置进行碰撞检测
+        Vector3 colliderPos = PlayerPositionManage.playerPosition.GetPosition3D();
+        Vector3 size = new Vector3(0.2f, 0.2f, 0.2f);
+
+        // 当前2D，检测3D
+        if(nowWorld == false)
+        {
+            bool haveOvetlap = Physics.CheckBox(colliderPos, size, player3D.transform.rotation, wallMask);
+            if (haveOvetlap)
+            {
+                return false;
+            }
+            return true;
+        }
+        // 当前3D，检测2D
+        if (nowWorld == true)
+        {
+            colliderPos.z = player2D.transform.position.z;
+            Collider2D hit = Physics2D.OverlapBox(colliderPos, (Vector2)size, 0f, wallMask);
+            if (hit != null)
+            {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     // 世界切换逻辑
     private void SwitchWorld()
     {
-        nowWorld = WorldSwitchManage.WorldSwitch.nowWorld;
+        nowWorld = WorldSwitchManage.Instance.nowWorld;
         // 切换到2D
         if (nowWorld == false)
         {
