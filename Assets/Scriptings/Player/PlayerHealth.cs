@@ -59,6 +59,7 @@ public class PlayerHealth : MonoBehaviour
         // 表示3D
         else if (is3D == true)
         {
+            Debug.Log(pos);
             player.transform.position = pos;
         }
     }
