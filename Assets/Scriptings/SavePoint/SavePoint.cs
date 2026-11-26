@@ -5,7 +5,12 @@ public class SavePoint : MonoBehaviour
     public GameObject player3D;
     public GameObject player2D;
     private float distance;
-    private bool isUsed;
+    public bool isUsed;
+
+    private void Awake()
+    {
+        EventManage.Instance.AddDieEvent(ResetSavePoint);
+    }
 
     private void Start()
     {
@@ -28,8 +33,16 @@ public class SavePoint : MonoBehaviour
         float dis = (player3D.transform.position - transform.position).magnitude;
         if (dis <= distance || player2D.transform.position.x >= transform.position.x)
         {
-            PlayerSavePointManage.Manage.Save(transform);
+            PlayerSavePointManage.Instance.Save(transform);
             isUsed = true;
+        }
+    }
+
+    private void ResetSavePoint()
+    {
+        if (isUsed)
+        {
+            isUsed = false;
         }
     }
 }
