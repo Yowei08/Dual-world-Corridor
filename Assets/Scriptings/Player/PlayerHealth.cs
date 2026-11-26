@@ -50,17 +50,25 @@ public class PlayerHealth : MonoBehaviour
 
     private void SetPosition(bool isStart)
     {
-        Vector3 pos = PlayerSavePointManage.Manage.Get(isStart).position;
+        Vector3 pos = PlayerSavePointManage.Instance.Get(isStart).position;
+        player.SetActive(false);
+        bool haveSet = false;
         // 表示2D
         if (is3D == false)
         {
             player.transform.position = new Vector3(pos.x, pos.y, player.transform.position.z);
+            haveSet = true;
         }
         // 表示3D
-        else if (is3D == true)
+        if (is3D == true)
         {
-            Debug.Log(pos);
             player.transform.position = pos;
+            haveSet = true;
+        }
+        // 暂时关闭玩家逻辑，进行传送，防止位移异常
+        if (haveSet)
+        {
+            player.SetActive(true);
         }
     }
 
