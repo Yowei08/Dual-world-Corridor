@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, GetHit
 {
     private static int health = 3;
     private float limit = -5f ;
