@@ -42,9 +42,7 @@ public class PlayerHealth : MonoBehaviour, GetHit
         }
         else
         {
-            PlayerDie();
-            SetPosition(true);
-            health = 3;
+            Die();
         }
     }
 
@@ -72,8 +70,10 @@ public class PlayerHealth : MonoBehaviour, GetHit
         }
     }
 
-    private void PlayerDie()
+    public void Die()
     {
         EventManage.Instance.UseDieEvent();
+        SetPosition(true);
+        health = 3;
     }
 }
