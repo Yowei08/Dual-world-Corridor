@@ -44,6 +44,10 @@ public class InputCenter : MonoBehaviour
     // 跳跃相关
     public bool jump = false;
 
+    // 玩家攻击
+    public bool attack = false;
+    private bool inAttacking = false;
+
     private void Awake()
     {
         // 全局只留一个：重复的只销毁组件，不销毁挂着的物体
@@ -69,6 +73,7 @@ public class InputCenter : MonoBehaviour
         haveMoveInput = CheckMoveInput();
         jump = CheckJumpInput();
         SwitchWorld();
+        Attack();
     }
 
     private bool CheckJumpInput()
@@ -116,5 +121,19 @@ public class InputCenter : MonoBehaviour
         {
             WorldSwitchManage.Instance.UseEvent();
         }
+    }
+
+    private void Attack()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (inAttacking)
+            {
+                return;
+            }
+            attack = true;
+            inAttacking = true;
+        }
+        attack = false;
     }
 }

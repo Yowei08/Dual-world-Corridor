@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, GetHit
 {
     private static int health = 3;
     private float limit = -5f ;
@@ -42,9 +42,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            PlayerDie();
-            SetPosition(true);
-            health = 3;
+            Die();
         }
     }
 
@@ -72,8 +70,10 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void PlayerDie()
+    public void Die()
     {
         EventManage.Instance.UseDieEvent();
+        SetPosition(true);
+        health = 3;
     }
 }

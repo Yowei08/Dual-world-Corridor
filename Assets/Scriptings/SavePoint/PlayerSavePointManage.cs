@@ -19,6 +19,7 @@ public class PlayerSavePointManage : MonoBehaviour
     {
         Instance = this;
 
+        // 如果没有设置初始存档点，就记录player3D初始位置为存档点
         if (start == null)
         {
             PlayerController3D controller = FindFirstObjectByType<PlayerController3D>();
