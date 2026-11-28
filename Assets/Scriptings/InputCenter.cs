@@ -46,7 +46,6 @@ public class InputCenter : MonoBehaviour
 
     // 玩家攻击
     public bool attack = false;
-    private bool inAttacking = false;
 
     private void Awake()
     {
@@ -125,15 +124,6 @@ public class InputCenter : MonoBehaviour
 
     private void Attack()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (inAttacking)
-            {
-                return;
-            }
-            attack = true;
-            inAttacking = true;
-        }
-        attack = false;
+        attack = Input.GetMouseButtonDown(0);
     }
 }
