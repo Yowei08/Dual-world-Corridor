@@ -55,7 +55,7 @@ public class PlayerAttack : MonoBehaviour
             // 忽略玩家自身
             if (hit.TryGetComponent<PlayerHealth>(out PlayerHealth self))
             {
-                return;
+                continue;
             }
 
             // 计算攻击点指向物体的方向

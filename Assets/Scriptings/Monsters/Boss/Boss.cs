@@ -14,6 +14,10 @@ public class Boss : Monster
 
     private bool canBeAttack = false;
 
+    private void Awake()
+    {
+        EventManage.Instance.AddDieEvent(Reset);
+    }
 
     private void Start()
     {
@@ -69,6 +73,8 @@ public class Boss : Monster
             FSM.OnUpdate();
         }
 
+        // 进入 Boss 战场的逻辑在 BossWorld.Update 里
+
         // boss3阶段
         switch (health)
         {
@@ -81,6 +87,7 @@ public class Boss : Monster
         }
     }
 
+    // 破除护盾
     private void CleanProtect()
     {
         canBeAttack = true;
@@ -93,7 +100,7 @@ public class Boss : Monster
         {
             return;
         }
-        if (health > 0)
+        if (health > 1)
         {
             health -= damage;
             canBeAttack = false;
@@ -103,6 +110,7 @@ public class Boss : Monster
             // 敌人生命值为0执行死亡
             Die();
         }
+        Debug.Log(health);
     }
 
     // 敌人死亡方法
@@ -116,5 +124,6 @@ public class Boss : Monster
     {
         health = 3;
         FSM.SwitchState(E_MonsterStateType.Patrol);
+        gameObject.SetActive(true);
     }
 }
