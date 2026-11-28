@@ -41,4 +41,22 @@ public class BossAttack : I_State
 
         // Boss2D逻辑
     }
+
+    // 攻击方式2（激光扫描）
+    private void Attack2()
+    {
+        if (nowSkill != 2)
+        {
+            return;
+        }
+    }
+
+    // 攻击方式3（蓄力光束）
+    private void Attack3()
+    {
+        if (nowSkill != 3)
+        {
+            return;
+        }
+    }
 }
