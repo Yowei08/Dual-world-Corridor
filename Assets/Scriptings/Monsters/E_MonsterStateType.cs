@@ -3,7 +3,7 @@
 /// </summary>
 public enum E_MonsterStateType
 {
-    Patrol,
-    Idle,
-    Attack
+    Patrol, // 巡查
+    Idle, // 静止
+    Attack // 攻击
 }
